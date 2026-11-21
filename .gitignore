@@ -17,3 +17,8 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Next.js
+out/
+next-env.d.ts
+*.tsbuildinfo
