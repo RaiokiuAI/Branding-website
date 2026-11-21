@@ -1,0 +1,19 @@
+# Dependencies and builds
+node_modules/
+dist/
+.next/
+.vercel/
+.netlify/
+
+# Environment and secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>raiokiuai — Agents that talk. Workflows that act.</title>
+<meta name="description" content="raiokiuai lets you build conversational AI agents and wire them to real business actions with visual workflows. Ship to WhatsApp, web, app and voice.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F8FD; --surface:#FFFFFF; --surface-2:#EEF2FB; --line:#E5EBFA; --line-strong:#CEDAFA;
+  --ink:#0B0A63; --text:#1E2140; --muted:#5B6185;
+  --brand:#5546FF; --brand-ink:#2323C7; --brand-soft:#E5EBFA;
+  --bead:#F2762E; --ok:#15A36B; --warn:#C27A00;
+  --thread:#B9C4EE; --shadow:0 1px 2px rgba(11,10,99,.06),0 8px 24px rgba(11,10,99,.06);
+  --radius:16px; --on-brand:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#070821; --surface:#0E1033; --surface-2:#141746; --line:#1F2357; --line-strong:#2D3277;
+    --ink:#F1F3FF; --text:#D9DCF5; --muted:#9AA0C8;
+    --brand:#8C82FF; --brand-ink:#B3ABFF; --brand-soft:#1A1D52;
+    --bead:#FF9254; --ok:#3BD69A; --warn:#F0B44C;
+    --thread:#343A86; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35); --on-brand:#0B0A63;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#070821; --surface:#0E1033; --surface-2:#141746; --line:#1F2357; --line-strong:#2D3277;
+  --ink:#F1F3FF; --text:#D9DCF5; --muted:#9AA0C8;
+  --brand:#8C82FF; --brand-ink:#B3ABFF; --brand-soft:#1A1D52;
+  --bead:#FF9254; --ok:#3BD69A; --warn:#F0B44C;
+  --thread:#343A86; --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35); --on-brand:#0B0A63;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 16px}
+@media (min-width:720px){.wrap{padding:0 32px}}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+.eyebrow{font:500 12px/1 "JetBrains Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}
+h1,h2,h3{color:var(--ink);margin:0}
+h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(34px,5vw,52px);line-height:1.05;letter-spacing:-.015em}
+h3{font-size:17px;font-weight:600;line-height:1.3}
+p{margin:0}
+section{padding:88px 0}
+.section-head{max-width:680px;margin-bottom:44px}
+.section-head p{color:var(--muted);font-size:18px;margin-top:14px}
+.section-head .eyebrow{display:block;margin-bottom:14px}
+
+nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--ink);text-decoration:none;white-space:nowrap;letter-spacing:-.01em}
+.navlinks{display:none;gap:28px;font-size:14px;color:var(--muted)}
+.navlinks a{text-decoration:none}.navlinks a:hover{color:var(--ink)}
+@media (min-width:900px){.navlinks{display:flex}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;border:1px solid transparent;transition:transform .15s ease,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--brand);color:var(--on-brand)}
+.btn-primary:hover{background:var(--brand-ink)}
+.btn-ghost{border-color:var(--line-strong);color:var(--ink);background:var(--surface)}
+.theme-toggle{background:none;border:1px solid var(--line-strong);color:var(--ink);border-radius:999px;width:36px;height:36px;cursor:pointer;display:grid;place-items:center}
+
+.hero{padding:72px 0 40px;position:relative}
+.hero-grid{display:grid;gap:48px;align-items:center}
+@media (min-width:980px){.hero-grid{grid-template-columns:1.02fr 1fr}}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border:1px solid var(--line-strong);border-radius:999px;background:var(--surface);font-size:13px;color:var(--muted)}
+.pill b{background:var(--brand-soft);color:var(--brand);font-weight:600;padding:2px 8px;border-radius:999px;font-size:12px}
+.hero h1{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:clamp(46px,7.4vw,86px);line-height:.98;letter-spacing:-.025em;margin:22px 0 22px}
+.hero h1 em{color:var(--brand);font-style:italic}
+.hero .lede{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:540px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.loom{background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:12px;position:relative;overflow:hidden}
+.loom svg{display:block;width:100%;height:auto}
+.loom-caption{display:flex;justify-content:space-between;font:500 11px "JetBrains Mono",monospace;color:var(--muted);padding:6px 10px 2px;letter-spacing:.06em;text-transform:uppercase}
+.thread{fill:none;stroke:var(--thread);stroke-width:1.6}
+.thread-live{fill:none;stroke:var(--brand);stroke-width:1.6;stroke-dasharray:4 10;animation:flow 2.4s linear infinite;opacity:.55}
+@keyframes flow{to{stroke-dashoffset:-56}}
+.bead{fill:var(--bead)}
+.node rect{fill:var(--surface);stroke:var(--line-strong)}
+.node text{fill:var(--ink);font:600 12px Inter,sans-serif}
+.node .sub{fill:var(--muted);font:500 9.5px "JetBrains Mono",monospace}
+.node.agent rect{fill:var(--brand);stroke:var(--brand)}
+.node.agent text{fill:#fff}.node.agent .sub{fill:#DCD8FF}
+.tag-dot{fill:var(--brand)}
+@media (prefers-reduced-motion:reduce){.thread-live{animation:none}.beadm{display:none}}
+
+.values{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:64px}
+@media (min-width:860px){.values{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:560px) and (max-width:859px){.values{grid-template-columns:repeat(2,1fr)}}
+.value{background:var(--surface);padding:22px 20px}
+.value .t{font-family:"Instrument Serif",Georgia,serif;font-size:26px;line-height:1.1;color:var(--ink)}
+.value .l{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.45}
+
+.steps{display:grid;gap:16px}
+@media (min-width:860px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;position:relative}
+.step .num{font:500 12px "JetBrains Mono",monospace;color:var(--brand);display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.step .num:after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.step h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:30px;margin-bottom:10px}
+.step p{color:var(--muted);font-size:15px}
+.step code{display:block;margin-top:18px;background:var(--surface-2);border-radius:10px;padding:12px 14px;font:12.5px/1.6 "JetBrains Mono",monospace;color:var(--text);white-space:pre;overflow-x:auto}
+
+.split{display:grid;gap:40px}
+@media (min-width:980px){.split{grid-template-columns:360px 1fr;gap:64px}.split .section-head{position:sticky;top:96px;align-self:start}}
+.features{display:grid;gap:14px}
+@media (min-width:640px){.features{grid-template-columns:1fr 1fr}}
+.feat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.feat .ic{width:36px;height:36px;border-radius:10px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;margin-bottom:14px}
+.feat p{color:var(--muted);font-size:14.5px;margin-top:6px}
+.feat ul{margin:10px 0 0;padding:0;list-style:none;font-size:14px;color:var(--muted)}
+.feat li{padding-left:16px;position:relative;margin:4px 0}
+.feat li:before{content:"";position:absolute;left:2px;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--bead)}
+
+.band{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.palette{display:grid;gap:14px}
+@media (min-width:860px){.palette{grid-template-columns:repeat(4,1fr)}}
+.pgroup{border:1px dashed var(--line-strong);border-radius:var(--radius);padding:18px}
+.pgroup h4{margin:0 0 12px;font:500 11px "JetBrains Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:13px;font-weight:500;color:var(--ink)}
+.chip i{width:7px;height:7px;border-radius:2px;background:var(--brand);display:block}
+.chip.ai i{background:var(--bead)}
+.ship{display:grid;gap:14px;margin-top:56px}
+@media (min-width:860px){.ship{grid-template-columns:repeat(3,1fr)}}
+.ship .feat{background:var(--bg)}
+.ship .k{font:500 11px "JetBrains Mono",monospace;color:var(--brand);letter-spacing:.08em;text-transform:uppercase}
+.ship h3{margin-top:8px}
+
+.channels{display:grid;gap:16px}
+@media (min-width:900px){.channels{grid-template-columns:repeat(3,1fr)}}
+.chan{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.chan .demo{background:var(--surface-2);padding:20px;min-height:210px;display:flex;flex-direction:column;gap:8px;justify-content:flex-end}
+.chan .body{padding:22px}
+.chan .body p{color:var(--muted);font-size:14.5px;margin-top:6px}
+.bubble{max-width:82%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.4;background:var(--surface);color:var(--text);border:1px solid var(--line)}
+.bubble.me{align-self:flex-end;background:var(--brand);color:#fff;border-color:transparent}
+.qr{display:flex;gap:6px;flex-wrap:wrap}
+.qr span{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--brand);color:var(--brand);background:var(--surface)}
+.carcards{display:flex;gap:8px}
+.carcard{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px}
+.carcard .img{height:44px;border-radius:8px;background:linear-gradient(135deg,var(--brand-soft),var(--line-strong))}
+.carcard b{display:block;font-size:12px;margin-top:6px;color:var(--ink)}
+.carcard small{font-size:11px;color:var(--muted)}
+.wave{display:flex;align-items:center;gap:3px;height:70px;justify-content:center}
+.wave i{display:block;width:4px;border-radius:4px;background:var(--brand);animation:wv 1.1s ease-in-out infinite}
+@keyframes wv{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+@media (prefers-reduced-motion:reduce){.wave i{animation:none}}
+.langs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.langs span{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:22px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);font:600 14px Inter,sans-serif;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.case{display:none;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px;gap:32px}
+.case.on{display:grid}
+@media (min-width:900px){.case{grid-template-columns:1fr 1.2fr;padding:36px}}
+.case h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:34px;line-height:1.1}
+.case p{color:var(--muted);margin-top:12px}
+.case .meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px}
+.case .meta span{font:500 11.5px "JetBrains Mono",monospace;padding:4px 9px;border-radius:8px;background:var(--surface-2);color:var(--text)}
+.flow{display:flex;flex-direction:column;gap:0}
+.flow .fstep{display:flex;gap:14px;align-items:flex-start;position:relative;padding-bottom:16px}
+.flow .fstep:not(:last-child):before{content:"";position:absolute;left:13px;top:28px;bottom:0;width:2px;background:repeating-linear-gradient(var(--thread) 0 4px,transparent 4px 8px)}
+.flow .dot{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font:600 11px "JetBrains Mono",monospace;background:var(--brand-soft);color:var(--brand)}
+.flow .dot.ai{background:color-mix(in srgb,var(--bead) 18%,transparent);color:var(--bead)}
+.flow .ft b{display:block;color:var(--ink);font-size:14.5px}
+.flow .ft small{color:var(--muted);font-size:13px}
+
+.orch{display:grid;gap:40px;align-items:center}
+@media (min-width:980px){.orch{grid-template-columns:1fr 1fr}}
+.orch-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:var(--shadow)}
+.orch-list{margin:22px 0 0;padding:0;list-style:none}
+.orch-list li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:15px;color:var(--muted)}
+.orch-list li b{color:var(--ink);min-width:96px}
+
+.trust{display:grid;gap:14px}
+@media (min-width:860px){.trust{grid-template-columns:repeat(3,1fr)}}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin-top:12px;font-size:13.5px}
+.kv dt{font-family:"JetBrains Mono",monospace;color:var(--ink);font-size:12.5px}
+.kv dd{margin:0;color:var(--muted)}
+
+.cta{background:var(--ink);color:var(--bg);border-radius:28px;padding:56px 28px;text-align:center;position:relative;overflow:hidden}
+.cta h2{color:var(--bg)}
+.cta p{color:color-mix(in srgb,var(--bg) 70%,transparent);max-width:560px;margin:16px auto 0;font-size:17px}
+.cta .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:30px}
+.cta .btn-ghost{background:transparent;color:var(--bg);border-color:color-mix(in srgb,var(--bg) 35%,transparent)}
+.cta svg{position:absolute;inset:0;width:100%;height:100%;opacity:.18;pointer-events:none}
+footer{padding:40px 0 56px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="raiokiuai home">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="5" fill="var(--brand)"/><g stroke="var(--brand)" stroke-width="1.5"><path d="M14 9V3M14 19v6M9 14H3M19 14h6M10.5 10.5 6 6M17.5 17.5 22 22M17.5 10.5 22 6M10.5 17.5 6 22"/></g><g fill="var(--bead)"><circle cx="14" cy="3" r="2"/><circle cx="25" cy="14" r="2"/><circle cx="6" cy="22" r="2"/></g></svg>
+      raiokiuai
+    </a>
+    <div class="navlinks">
+      <a href="#how">How it works</a><a href="#agents">Agents</a><a href="#flows">Flows</a><a href="#channels">Channels</a><a href="#usecases">Use cases</a><a href="#trust">Production</a>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="theme-toggle" id="themeBtn" aria-label="Toggle dark mode">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <a class="btn btn-primary" href="#cta">Get early access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="pill"><b>New</b> Publish flows as API endpoints &amp; MCP servers</span>
+        <h1>Agents that <em>talk.</em><br>Workflows that <em>act.</em></h1>
+        <p class="lede">raiokiuai builds conversational AI agents for WhatsApp, web, app and voice, and connects them to your APIs, data and LLMs through visual workflows. Business teams can ship real customer journeys without writing backend code.</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#cta">Build your first agent →</a>
+          <a class="btn btn-ghost" href="#flows">Explore Flows</a>
+        </div>
+      </div>
+
+      <div class="loom" aria-label="Diagram: channels connect to an agent which calls workflow chains">
+        <div class="loom-caption"><span>Live loom</span><span>channels → agent → flows</span></div>
+        <svg viewBox="0 0 520 380" role="img" aria-hidden="true">
+          <defs>
+            <path id="p1" d="M118 70 C 180 70, 190 190, 232 190"/>
+            <path id="p2" d="M118 190 L 232 190"/>
+            <path id="p3" d="M118 310 C 180 310, 190 190, 232 190"/>
+            <path id="q1" d="M332 190 C 370 190, 370 52, 402 52"/>
+            <path id="q2" d="M332 190 C 370 190, 370 142, 402 142"/>
+            <path id="q3" d="M332 190 C 370 190, 370 236, 402 236"/>
+            <path id="q4" d="M332 190 C 370 190, 370 326, 402 326"/>
+          </defs>
+          <g>
+            <use href="#p1" class="thread"/><use href="#p2" class="thread"/><use href="#p3" class="thread"/>
+            <use href="#q1" class="thread"/><use href="#q2" class="thread"/><use href="#q3" class="thread"/><use href="#q4" class="thread"/>
+            <use href="#p1" class="thread-live"/><use href="#p3" class="thread-live" style="animation-delay:-.8s"/>
+            <use href="#q2" class="thread-live" style="animation-delay:-1.2s"/><use href="#q4" class="thread-live" style="animation-delay:-.4s"/>
+          </g>
+          <g class="beadm">
+            <circle r="4" class="bead"><animateMotion dur="2.8s" repeatCount="indefinite"><mpath href="#p1"/></animateMotion></circle>
+            <circle r="4" class="bead"><animateMotion dur="2.2s" begin="-.9s" repeatCount="indefinite"><mpath href="#p2"/></animateMotion></circle>
+            <circle r="4" class="bead"><animateMotion dur="3.1s" begin="-1.6s" repeatCount="indefinite"><mpath href="#p3"/></animateMotion></circle>
+            <circle r="4" class="bead"><animateMotion dur="2.6s" begin="-.3s" repeatCount="indefinite"><mpath href="#q1"/></animateMotion></circle>
+            <circle r="4" class="bead"><animateMotion dur="2.4s" begin="-1.2s" repeatCount="indefinite"><mpath href="#q3"/></animateMotion></circle>
+            <circle r="4" class="bead"><animateMotion dur="3s" begin="-2s" repeatCount="indefinite"><mpath href="#q4"/></animateMotion></circle>
+          </g>
+          <g class="node"><rect x="10" y="48" width="108" height="44" rx="12"/><text x="24" y="68">WhatsApp</text><text x="24" y="83" class="sub">rich messages</text></g>
+          <g class="node"><rect x="10" y="168" width="108" height="44" rx="12"/><text x="24" y="188">Chat SDK</text><text x="24" y="203" class="sub">web · app</text></g>
+          <g class="node"><rect x="10" y="288" width="108" height="44" rx="12"/><text x="24" y="308">Voice</text><text x="24" y="323" class="sub">realtime · multilingual</text></g>
+          <g class="node agent"><rect x="232" y="150" width="100" height="80" rx="16"/><text x="248" y="182">Agent</text><text x="248" y="199" class="sub">memory · tools</text><text x="248" y="213" class="sub">guardrails</text></g>
+          <g class="node"><rect x="402" y="30" width="108" height="44" rx="12"/><circle cx="414" cy="52" r="3" class="tag-dot"/><text x="424" y="50">lookup_user</text><text x="424" y="64" class="sub">API → jq</text></g>
+          <g class="node"><rect x="402" y="120" width="108" height="44" rx="12"/><circle cx="414" cy="142" r="3" class="tag-dot"/><text x="424" y="140">fetch_slots</text><text x="424" y="154" class="sub">if/else → API</text></g>
+          <g class="node"><rect x="402" y="214" width="108" height="44" rx="12"/><circle cx="414" cy="236" r="3" fill="var(--bead)"/><text x="424" y="234">kb_answer</text><text x="424" y="248" class="sub">RAG</text></g>
+          <g class="node"><rect x="402" y="304" width="108" height="44" rx="12"/><circle cx="414" cy="326" r="3" class="tag-dot"/><text x="424" y="324">send_offer</text><text x="424" y="338" class="sub">OTP → LLM</text></g>
+          <text x="440" y="18" style="fill:var(--muted);font:500 9.5px 'JetBrains Mono',monospace;letter-spacing:.1em">FLOWS</text>
+          <text x="10" y="18" style="fill:var(--muted);font:500 9.5px 'JetBrains Mono',monospace;letter-spacing:.1em">CHANNELS</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="values">
+      <div class="value"><div class="t">Conversation</div><div class="l">Agents with memory, tools and guardrails, built in minutes</div></div>
+      <div class="value"><div class="t">Action</div><div class="l">Visual workflows that call your APIs, data and models</div></div>
+      <div class="value"><div class="t">Every channel</div><div class="l">WhatsApp, web, app and voice from a single agent</div></div>
+      <div class="value"><div class="t">Your languages</div><div class="l">Chat and voice in multiple Indian languages and English</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Build the action. Give it a voice. Ship it everywhere.</h2>
+      <p>Flows are the hands, and agents are the conversation. Together they turn a customer's message into a real booking, offer or refund.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01 · FLOWS</div>
+        <h3>Build the workflow</h3>
+        <p>Drag LLM, API, jq, code, database and condition nodes onto a canvas. Test each node live, then publish a versioned endpoint.</p>
+<code>trigger(phone)
+ → api: lookup_user
+ → if: city serviceable?
+ → api: fetch_slots
+ → jq: top 3 slots</code>
+      </div>
+      <div class="step">
+        <div class="num">02 · AGENTS</div>
+        <h3>Give it to an agent</h3>
+        <p>Attach a flow as a tool, or paste any cURL. Then set the persona, languages and first message, and let the prompt studio refine the system prompt.</p>
+<code>tool: fetch_slots
+  url:  flows/…/execution/{id}/run
+  phone ← dynamic variable
+  auth  ← team secret
+  cache ← ttl · jq transform</code>
+      </div>
+      <div class="step">
+        <div class="num">03 · SHIP</div>
+        <h3>Go live on every channel</h3>
+        <p>Map the agent to a WhatsApp number, a web or app page, or a voice line. Score every conversation and trace every turn.</p>
+<code>whatsapp  +•• •••• → support-bot
+sdk       /help      → support-bot
+voice     inbound    → support-bot
+quality   rules ✓</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="agents" style="padding-top:24px">
+  <div class="wrap split">
+    <div class="section-head">
+      <span class="eyebrow">Agents</span>
+      <h2>A complete agent stack, without the plumbing.</h2>
+      <p>We take care of memory, tools, concurrency, multimodal input and safety limits, so your team can focus on the customer journey.</p>
+    </div>
+    <div class="features">
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
+        <h3>Prompt studio</h3>
+        <p>Generate a system prompt from a use case, refine it against templates, then apply it to the agent in one click. Dynamic variables personalise every turn.</p>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></div>
+        <h3>Tools from anything</h3>
+        <ul><li>API tools from a pasted cURL</li><li>Flows attached as tools</li><li>Knowledge bases (RAG)</li><li>CRM events &amp; structured replies</li></ul>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h3>Secrets stay secret</h3>
+        <p>Parameters can come from the LLM, session variables, encrypted team secrets or system values, and the model never sees a key.</p>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>Memory that lasts</h3>
+        <p>Persistent checkpoints keep a conversation going for weeks. Rolling summaries and history compaction keep very long WhatsApp threads fast.</p>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>
+        <h3>Multimodal by default</h3>
+        <p>Customers can send photos, voice notes and documents. Audio is transcribed and everything is passed to vision-capable models.</p>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></div>
+        <h3>Engagement on autopilot</h3>
+        <ul><li>LLM-timed nudges for idle chats</li><li>Follow-up suggestion chips</li><li>CRM messages injected into live chats</li><li>One-tap "call me back" requests</li></ul>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h6"/></svg></div>
+        <h3>Structured responses</h3>
+        <p>JSON-Schema output, carousels, CTAs and quick replies, so agents send UI instead of walls of text.</p>
+      </div>
+      <div class="feat">
+        <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Never leaves you hanging</h3>
+        <p>If a customer double-texts, the newer message replaces the in-flight run. A slow turn still gets a graceful answer built from partial context.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flows" class="band">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Flows · Workflows</span>
+      <h2>Connect AI, APIs and logic blocks in one flow.</h2>
+      <p>Flows is a visual canvas for building AI workflows. Pull upstream outputs into any node as <span class="mono">{{variables}}</span>, test one node at a time, and publish when it works.</p>
+    </div>
+    <div class="palette">
+      <div class="pgroup"><h4>Core</h4><div class="chips">
+        <span class="chip"><i></i>Trigger</span><span class="chip ai"><i></i>LLM</span><span class="chip"><i></i>API</span><span class="chip"><i></i>jq Transform</span><span class="chip"><i></i>Code · Py / JS</span>
+      </div></div>
+      <div class="pgroup"><h4>Control flow</h4><div class="chips">
+        <span class="chip"><i></i>If / Else</span><span class="chip"><i></i>Switch</span><span class="chip"><i></i>Wait &amp; Merge</span><span class="chip"><i></i>Delay</span><span class="chip"><i></i>Sub-workflow</span>
+      </div></div>
+      <div class="pgroup"><h4>Data &amp; apps</h4><div class="chips">
+        <span class="chip"><i></i>Data warehouse</span><span class="chip"><i></i>Slack</span><span class="chip"><i></i>Sheets</span><span class="chip"><i></i>Email</span>
+      </div></div>
+      <div class="pgroup"><h4>AI services</h4><div class="chips">
+        <span class="chip ai"><i></i>Document intelligence</span><span class="chip ai"><i></i>Transcription</span><span class="chip ai"><i></i>PII redaction</span><span class="chip ai"><i></i>Rule-based QA</span>
+      </div></div>
+    </div>
+
+    <div class="features" style="margin-top:14px">
+      <div class="feat"><h3>One key, every model</h3><p>An AI gateway gives you OpenAI, Gemini and Claude models behind a single key, with live model discovery and per-flow spend tracking.</p></div>
+      <div class="feat"><h3>Sandboxed code</h3><p>Run Python or JavaScript inline in a sandbox with time, memory and import limits.</p></div>
+    </div>
+
+    <div class="ship">
+      <div class="feat"><span class="k">Ship as</span><h3>API endpoint</h3><p>Every published flow gets a versioned URL, a ready cURL and an execution token. Runs can be sync, or async with a webhook callback.</p></div>
+      <div class="feat"><span class="k">Ship as</span><h3>MCP server</h3><p>Turn a REST API, a cURL or a whole flow into MCP tools, bundle them into a server, and share it across teams.</p></div>
+      <div class="feat"><span class="k">Ship as</span><h3>Agent tool</h3><p>Agents call flows directly. Responses are validated and cached automatically.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="channels">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Channels</span>
+      <h2>One agent, wherever your customers are.</h2>
+      <p>Build an agent once and map it to WhatsApp numbers, SDK pages or voice lines. Each channel gets native UI, not just plain text.</p>
+    </div>
+    <div class="channels">
+      <div class="chan">
+        <div class="demo">
+          <div class="bubble me">I'd like to book a visit this Saturday</div>
+          <div class="bubble">Sure! I found 3 open slots near you. Which works best?</div>
+          <div class="qr"><span>Sat 10 AM</span><span>Sat 1 PM</span><span>More times</span></div>
+        </div>
+        <div class="body"><h3>WhatsApp</h3><p>Works with major business-API providers, with carousels, quick replies, list forms and call buttons. Rapid-fire messages are merged, and media links are signed.</p></div>
+      </div>
+      <div class="chan">
+        <div class="demo">
+          <div class="bubble">Here are options matching your request:</div>
+          <div class="carcards">
+            <div class="carcard"><div class="img"></div><b>Option A</b><small>Details · price</small></div>
+            <div class="carcard"><div class="img"></div><b>Option B</b><small>Details · price</small></div>
+          </div>
+          <div class="qr"><span>Compare</span><span>Talk to an expert</span></div>
+        </div>
+        <div class="body"><h3>Web &amp; app Chat SDK</h3><p>Real-time messaging with typing indicators, read receipts and cancel. Built-in widgets include cards, slot pickers and AI summaries, and conversations can hand off to a human.</p></div>
+      </div>
+      <div class="chan">
+        <div class="demo" style="justify-content:center;gap:14px">
+          <div class="wave" aria-hidden="true">
+            <i style="height:30%;animation-delay:-.1s"></i><i style="height:60%;animation-delay:-.3s"></i><i style="height:90%;animation-delay:-.5s"></i><i style="height:70%;animation-delay:-.2s"></i><i style="height:100%;animation-delay:-.7s"></i><i style="height:55%;animation-delay:-.4s"></i><i style="height:80%;animation-delay:-.6s"></i><i style="height:40%;animation-delay:-.8s"></i><i style="height:65%;animation-delay:-.15s"></i><i style="height:35%;animation-delay:-.55s"></i><i style="height:75%;animation-delay:-.35s"></i><i style="height:45%;animation-delay:-.65s"></i>
+          </div>
+          <div class="langs"><span>English</span><span>हिन्दी</span><span>தமிழ்</span><span>తెలుగు</span><span>ಕನ್ನಡ</span><span>മലയാളം</span><span>मराठी</span><span>ગુજરાતી</span></div>
+        </div>
+        <div class="body"><h3>Voice</h3><p>Realtime voice with semantic turn detection and a pre-rendered first message. Amounts are read aloud the Indian way, "four lakh fifty thousand".</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="usecases" class="band">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Use cases</span>
+      <h2>Real journeys, ready to build.</h2>
+      <p>These are the kinds of customer journeys teams build with raiokiuai across sales, service and finance.</p>
+    </div>
+    <div class="tabs" role="tablist" id="tabs">
+      <button class="tab" role="tab" aria-selected="true" data-t="sales">Sales &amp; discovery</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="book">Booking</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="fin">Finance</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="sup">Support</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="voice">Voice &amp; calling</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="qa">Quality &amp; insights</button>
+    </div>
+
+    <div class="case on" id="c-sales" role="tabpanel">
+      <div><h3>From "show me options" to a confirmed order.</h3><p>A sales agent on WhatsApp and in your app recommends products, answers questions, checks availability in the customer's city, books a slot and creates the order, all in one conversation.</p>
+        <div class="meta"><span>get_recommendations</span><span>get_pricing</span><span>check_availability</span><span>create_order</span></div></div>
+      <div class="flow">
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Understand intent</b><small>budget, preferences, location: from text, image or voice note</small></div></div>
+        <div class="fstep"><div class="dot">01</div><div class="ft"><b>Flow: recommend</b><small>API → jq → rendered as a WhatsApp carousel or SDK cards</small></div></div>
+        <div class="fstep"><div class="dot">02</div><div class="ft"><b>Flow: pricing &amp; details</b><small>answers grounded in live data</small></div></div>
+        <div class="fstep"><div class="dot">03</div><div class="ft"><b>Flow: slots &amp; order</b><small>availability check → fetch slots → slot picker widget</small></div></div>
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Nudge if idle</b><small>LLM-timed reminder, or a one-tap callback request</small></div></div>
+      </div>
+    </div>
+
+    <div class="case" id="c-book" role="tabpanel">
+      <div><h3>Details in, appointment out.</h3><p>A scheduling agent captures the customer's details, creates the lead and books a visit or appointment based on their address and availability.</p>
+        <div class="meta"><span>identify_customer</span><span>create_lead</span><span>address_to_slot</span><span>confirm_booking</span></div></div>
+      <div class="flow">
+        <div class="fstep"><div class="dot">01</div><div class="ft"><b>Identify the customer</b><small>phone lookup, with a guided fallback</small></div></div>
+        <div class="fstep"><div class="dot">02</div><div class="ft"><b>Capture the request</b><small>structured fields collected conversationally</small></div></div>
+        <div class="fstep"><div class="dot">03</div><div class="ft"><b>Create lead</b><small>channel-specific lead flows for WhatsApp and app</small></div></div>
+        <div class="fstep"><div class="dot">04</div><div class="ft"><b>Book the slot</b><small>address → nearest slots → confirm</small></div></div>
+      </div>
+    </div>
+
+    <div class="case" id="c-fin" role="tabpanel">
+      <div><h3>Offers with consent built in.</h3><p>Financial-services agents run lending and refinance journeys end to end: OTP consent, a personalised offer, customisation, document upload and a callback, all inside chat.</p>
+        <div class="meta"><span>send_consent_otp</span><span>verify_otp</span><span>fetch_offer</span><span>customize_offer</span><span>document_upload</span></div></div>
+      <div class="flow">
+        <div class="fstep"><div class="dot">01</div><div class="ft"><b>Consent</b><small>send and verify OTP through flows</small></div></div>
+        <div class="fstep"><div class="dot">02</div><div class="ft"><b>Pre-approved offer</b><small>fetch, then let the customer tune amount and tenure</small></div></div>
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Collect documents</b><small>upload and extract inside the conversation</small></div></div>
+        <div class="fstep"><div class="dot">03</div><div class="ft"><b>Hand off</b><small>record a callback and send a short journey link</small></div></div>
+      </div>
+    </div>
+
+    <div class="case" id="c-sup" role="tabpanel">
+      <div><h3>After the sale, before the frustration.</h3><p>Support agents handle order queries, negotiation within limits, refunds and support tickets, and transfer to a human when the conversation needs one.</p>
+        <div class="meta"><span>order_status</span><span>negotiate_price</span><span>refund_initiate</span><span>raise_ticket</span></div></div>
+      <div class="flow">
+        <div class="fstep"><div class="dot">01</div><div class="ft"><b>Pull context</b><small>orders, reports, refund status</small></div></div>
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Resolve or negotiate</b><small>grounded answers, with negotiation inside guardrails</small></div></div>
+        <div class="fstep"><div class="dot">02</div><div class="ft"><b>Act</b><small>start a refund, raise a ticket, update details</small></div></div>
+        <div class="fstep"><div class="dot">03</div><div class="ft"><b>Escalate</b><small>session marked transferred, then a human takes over</small></div></div>
+      </div>
+    </div>
+
+    <div class="case" id="c-voice" role="tabpanel">
+      <div><h3>Voice bots that know when to pass the call.</h3><p>Inbound campaign calls, booking confirmations, cancellations, soft collections and post-delivery check-ins. A flow decides when a warm transfer to a human is worth it.</p>
+        <div class="meta"><span>inbound_call_transfer</span><span>booking_confirmation</span><span>soft_collections</span><span>post_delivery_checkin</span></div></div>
+      <div class="flow">
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Converse in realtime</b><small>multiple languages; amounts spoken the Indian way</small></div></div>
+        <div class="fstep"><div class="dot">01</div><div class="ft"><b>Detect intent &amp; hang-ups</b><small>positive intent or a short hang-up → escalate</small></div></div>
+        <div class="fstep"><div class="dot">02</div><div class="ft"><b>Transfer to human</b><small>a flow routes the call to the right queue</small></div></div>
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Summarise</b><small>transcript → summary → CRM</small></div></div>
+      </div>
+    </div>
+
+    <div class="case" id="c-qa" role="tabpanel">
+      <div><h3>Every conversation, scored.</h3><p>Transcribe calls, redact PII with a beep or silence, and score chats and calls against your own rules, such as "Did the agent greet the customer?". Flows can also send data-warehouse reports to Slack.</p>
+        <div class="meta"><span>audio_to_evaluate</span><span>summary_from_transcript</span><span>customer_profiling</span><span>report_to_slack</span></div></div>
+      <div class="flow">
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Transcribe</b><small>Hindi and English, with speaker diarization</small></div></div>
+        <div class="fstep"><div class="dot ai">AI</div><div class="ft"><b>Redact</b><small>phone, card and ID numbers removed</small></div></div>
+        <div class="fstep"><div class="dot">01</div><div class="ft"><b>Rule evaluation</b><small>runs automatically on idle WhatsApp and SDK sessions</small></div></div>
+        <div class="fstep"><div class="dot">02</div><div class="ft"><b>Report</b><small>data warehouse → LLM → Slack</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="orchestrator">
+  <div class="wrap orch">
+    <div>
+      <span class="eyebrow">Multi-agent orchestrator</span>
+      <h2 style="margin-top:14px">One front door. Many specialist agents.</h2>
+      <p style="color:var(--muted);font-size:18px;margin-top:14px">The orchestrator puts a single router in front of your agents. It sends each query to the right specialist, or plans a multi-agent answer.</p>
+      <ul class="orch-list">
+        <li><b>Router</b><span>Classifies each query as greeting, single agent or complex, and routes by business unit.</span></li>
+        <li><b>Planner</b><span>Builds a parallel or sequential plan across agents.</span></li>
+        <li><b>Agents</b><span>Each step runs on an agent with its own tools and memory.</span></li>
+        <li><b>Synthesis</b><span>Merges the results into one coherent reply.</span></li>
+      </ul>
+    </div>
+    <div class="orch-card">
+      <svg viewBox="0 0 460 330" role="img" aria-label="Orchestrator: router sends queries to planner and agents, results merge in synthesis">
+        <g fill="none" stroke="var(--thread)" stroke-width="1.6">
+          <path d="M230 62 V100"/><path d="M230 140 C230 170, 80 160, 80 196"/><path d="M230 140 V196"/><path d="M230 140 C230 170, 380 160, 380 196"/>
+          <path d="M80 236 C80 270, 230 256, 230 276"/><path d="M230 236 V276"/><path d="M380 236 C380 270, 230 256, 230 276"/>
+        </g>
+        <g class="node agent"><rect x="170" y="22" width="120" height="40" rx="12"/><text x="230" y="46" text-anchor="middle">Router</text></g>
+        <g class="node"><rect x="170" y="100" width="120" height="40" rx="12"/><text x="230" y="124" text-anchor="middle">Planner</text></g>
+        <g class="node"><rect x="20" y="196" width="120" height="40" rx="12"/><text x="80" y="214" text-anchor="middle">Sales agent</text><text x="80" y="228" text-anchor="middle" class="sub">agent</text></g>
+        <g class="node"><rect x="170" y="196" width="120" height="40" rx="12"/><text x="230" y="214" text-anchor="middle">Finance agent</text><text x="230" y="228" text-anchor="middle" class="sub">agent</text></g>
+        <g class="node"><rect x="320" y="196" width="120" height="40" rx="12"/><text x="380" y="214" text-anchor="middle">Support agent</text><text x="380" y="228" text-anchor="middle" class="sub">agent</text></g>
+        <g class="node"><rect x="170" y="276" width="120" height="40" rx="12" style="stroke:var(--bead)"/><text x="230" y="300" text-anchor="middle">Synthesis</text></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="trust" class="band">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Built for production</span>
+      <h2>Guardrails, telemetry and tenancy, already in place.</h2>
+    </div>
+    <div class="trust">
+      <div class="feat"><h3>Guardrails</h3>
+        <dl class="kv"><dt>Limits</dt><dd>caps on tool calls and iterations per turn</dd><dt>Timeout</dt><dd>graceful fallback answer on slow turns</dd><dt>Budget</dt><dd>run budget with per-node timeouts</dd><dt>Load</dt><dd>back-pressure instead of meltdown</dd></dl></div>
+      <div class="feat"><h3>Observability</h3>
+        <dl class="kv"><dt>Traces</dt><dd>trace per turn, span per node</dd><dt>Latency</dt><dd>per-message timing &amp; tool calls</dd><dt>Cost</dt><dd>tokens &amp; spend per flow and agent</dd><dt>APM</dt><dd>logs and metrics for every service</dd></dl></div>
+      <div class="feat"><h3>Security &amp; tenancy</h3>
+        <dl class="kv"><dt>Teams</dt><dd>admin · write · read access control</dd><dt>Secrets</dt><dd>encrypted, never shown to the LLM</dd><dt>Keys</dt><dd>hashed team API keys</dd><dt>Logs</dt><dd>PII masked</dd></dl></div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="wrap">
+    <div class="cta">
+      <svg viewBox="0 0 800 300" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="#8C82FF" stroke-width="1"><path d="M0 60 C200 20 300 160 800 90"/><path d="M0 150 C220 210 420 40 800 170"/><path d="M0 240 C260 200 480 300 800 230"/></g><g fill="#FF9254"><circle cx="180" cy="44" r="4"/><circle cx="420" cy="102" r="4"/><circle cx="620" cy="244" r="4"/><circle cx="300" cy="170" r="4"/></g></svg>
+      <span class="eyebrow" style="color:#B3ABFF">Start weaving</span>
+      <h2 style="margin-top:14px">Your next customer journey is a canvas away.</h2>
+      <p>Build the workflow, then give it a voice. We're opening early access to a small group of teams.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#">Get early access →</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© raiokiuai · AI agents and workflows</span>
+    <span class="mono">Conversations that act</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  try{var s=localStorage.getItem('rk-theme'); if(s) root.setAttribute('data-theme',s);}catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var next=cur==='dark'?'light':'dark'; root.setAttribute('data-theme',next);
+    try{localStorage.setItem('rk-theme',next);}catch(e){}
+  });
+  var tabs=document.querySelectorAll('.tab');
+  tabs.forEach(function(t){t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.setAttribute('aria-selected','false')});
+    t.setAttribute('aria-selected','true');
+    document.querySelectorAll('.case').forEach(function(c){c.classList.remove('on')});
+    document.getElementById('c-'+t.dataset.t).classList.add('on');
+  });});
+})();
+</script>
+</body>
+</html>
