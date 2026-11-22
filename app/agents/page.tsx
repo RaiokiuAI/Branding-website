@@ -3,8 +3,8 @@ import { Arrow, Cta, Ic, Icon, JsonLd, PageHero, SectionHead } from '@/component
 import { pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/agents/';
-const title = 'Conversational AI agents with memory, tools & guardrails | RaiokiuAI';
-const description = 'Build conversational AI agents with a prompt studio, API and workflow tools, RAG knowledge bases, long-term memory, multimodal input and a multi-agent orchestrator.';
+const title = 'Conversational AI agent builder | RaiokiuAI';
+const description = 'Build conversational AI agents with a prompt studio, API and workflow tools, RAG knowledge bases, long-term memory and multi-agent orchestration.';
 
 export const metadata = pageMeta({
   path, title, description,

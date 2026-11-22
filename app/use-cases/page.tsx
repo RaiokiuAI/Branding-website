@@ -3,8 +3,8 @@ import { Arrow, Cta, JsonLd, PageHero, SectionHead } from '@/components/ui';
 import { SITE, pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/use-cases/';
-const title = 'AI agent use cases on every channel | RaiokiuAI';
-const description = 'Connect one RaiokiuAI agent to messaging, web and app chat, and voice, then shape it to your use case: answer questions, capture leads, schedule, update records, follow up and hand off to people.';
+const title = 'AI agent use cases for every channel | RaiokiuAI';
+const description = 'Use one AI agent across messaging, web, app and voice to answer questions, capture leads, schedule, follow up and hand off to your team.';
 
 export const metadata = pageMeta({
   path, title, description,

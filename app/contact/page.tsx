@@ -3,7 +3,7 @@ import { JsonLd, PageHero, SectionHead } from '@/components/ui';
 import { SITE, pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/contact/';
-const title = 'Get early access to RaiokiuAI AI agents & workflows';
+const title = 'Get early access to RaiokiuAI';
 const description = "Request early access to RaiokiuAI. Tell us the customer journey you want to automate on WhatsApp, web, app or voice, and we'll get in touch.";
 
 export const metadata = pageMeta({
@@ -27,6 +27,7 @@ export default function ContactPage() {
         <div className="wrap split">
           <SectionHead eyebrow="Request access" id="form-title" title="Tell us what you're building." style={{ fontSize: 'clamp(32px,3.6vw,48px)' }}>
             <p>Prefer email? Write to <a className="link-arrow" href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+            <p>Or follow us on <a className="link-arrow" href={SITE.social.linkedin} target="_blank" rel="noopener me">LinkedIn</a> and <a className="link-arrow" href={SITE.social.x} target="_blank" rel="noopener me">X</a></p>
           </SectionHead>
           <div className="card reveal d1" style={{ padding: 'clamp(24px,4vw,40px)' }}>
             <AccessForm />

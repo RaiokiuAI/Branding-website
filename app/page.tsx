@@ -4,7 +4,7 @@ import SplitWords from '@/components/SplitWords';
 import { Arrow, JsonLd, Prism } from '@/components/ui';
 import { SITE, pageJsonLd, pageMeta } from '@/lib/site';
 
-const title = 'RaiokiuAI — AI agents for WhatsApp, web & voice, wired to real workflows';
+const title = 'RaiokiuAI: AI agents for WhatsApp, web, app & voice';
 const description = SITE.description;
 
 export const metadata = pageMeta({ path: '/', title, ogTitle: `RaiokiuAI — ${SITE.tagline}`, description });
@@ -15,24 +15,30 @@ const jsonLd = pageJsonLd({
   title,
   description,
   extra: [
+    // `Service`, not `SoftwareApplication`: Google's SoftwareApplication rich result requires
+    // `offers` plus ratings/reviews, which we don't publish yet (Ahrefs flagged it as a validation error).
     {
-      '@type': 'SoftwareApplication',
-      name: 'RaiokiuAI',
-      applicationCategory: 'BusinessApplication',
-      operatingSystem: 'Web',
+      '@type': 'Service',
+      '@id': `${SITE.url}/#service`,
+      name: 'RaiokiuAI conversational AI agent platform',
+      serviceType: 'Conversational AI agent and workflow automation platform',
       url: `${SITE.url}/`,
       description: 'A platform for building conversational AI agents and visual AI workflows, deployable to WhatsApp, web and app chat, and voice.',
-      publisher: { '@id': `${SITE.url}/#organization` },
-      featureList: [
-        'Conversational AI agents with memory, tools and guardrails',
-        'Visual workflow builder with LLM, API, code and logic nodes',
-        'WhatsApp, web/app SDK and realtime voice channels',
-        'Multilingual chat and voice in Indian languages',
-        'Publish workflows as API endpoints and MCP servers',
-        'Multi-agent orchestration',
-        'Tracing, cost tracking and conversation quality scoring',
-      ],
-    }
+      provider: { '@id': `${SITE.url}/#organization` },
+      brand: { '@type': 'Brand', name: SITE.name },
+      slogan: SITE.tagline,
+      areaServed: { '@type': 'Country', name: 'India' },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'RaiokiuAI platform',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'AI agents', url: `${SITE.url}/agents/` } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Flows: visual AI workflows', url: `${SITE.url}/flows/` } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Channels: WhatsApp, web, app and voice', url: `${SITE.url}/channels/` } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Security and observability', url: `${SITE.url}/security/` } },
+        ],
+      },
+    },
   ],
 });
 
@@ -89,6 +95,8 @@ export default function Home() {
         <div className="wrap hero-inner">
           <div>
             <span className="hero-badge reveal"><b>NEW</b> Publish flows as API endpoints &amp; MCP servers</span>
+            {/* Category keywords next to the H1: competitors all name "AI agents" here, and our headline doesn't. */}
+            <p className="eyebrow hero-eyebrow reveal">AI agent platform for WhatsApp, web &amp; voice</p>
             <h1 id="hero-title"><SplitWords text="Agents that talk." start={0.15} /><br /><SplitWords text="Workflows that act." start={0.4} wordClass="soft" /></h1>
           </div>
           <div className="reveal d2">

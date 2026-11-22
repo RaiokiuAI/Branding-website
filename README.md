@@ -31,8 +31,11 @@ Site-wide settings (domain, email, Google verification, nav, sitemap routes) liv
 
 - Per-page `<title>`, description, keywords, canonical URL and `hreflang` (`pageMeta()` in `lib/site.ts`)
 - Open Graph + Twitter large-image cards using `public/og-image.png` (1200×630)
-- JSON-LD: Organization, WebSite, WebPage, BreadcrumbList on every page; SoftwareApplication on the home page; ItemList on use cases
-- `sitemap.xml` (`app/sitemap.ts`) and `robots.txt` (`app/robots.ts`) generated at build
+- JSON-LD: Organization (with `sameAs` social profiles, alternate names, square logo, contact point), WebSite, WebPage, BreadcrumbList on every page; Service on the home page; ItemList on use cases. Don't use `SoftwareApplication` until there are public prices and ratings: Google's rich-results validation requires them.
+- Social profiles live in `SITE.social` (`lib/site.ts`); they feed `sameAs` and the footer links.
+- The build fails if a page title is over 60 characters or a meta description is over 160 (`pageMeta()`).
+- `sitemap.xml` (`app/sitemap.ts`), `robots.txt` (`app/robots.ts`) and `llms.txt` for AI search (`app/llms.txt/route.ts`) generated at build
+- GitHub → Settings → Pages → **Enforce HTTPS** must stay on, otherwise `http://` pages are served and crawlers see every page twice.
 - Google Search Console verification meta tag
 - Favicons, Apple touch icon and web manifest in `public/`
 
