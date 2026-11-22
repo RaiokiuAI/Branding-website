@@ -2,12 +2,12 @@ import { Cta, JsonLd, PageHero, SectionHead } from '@/components/ui';
 import { pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/about/';
-const title = 'About raiokiuai — conversations that act';
-const description = 'raiokiuai is building the platform that turns AI conversations into real business outcomes, for teams serving customers across India on WhatsApp, web, app and voice.';
+const title = 'About RaiokiuAI — conversations that act';
+const description = 'RaiokiuAI is building the platform that turns AI conversations into real business outcomes, for teams serving customers across India on WhatsApp, web, app and voice.';
 
 export const metadata = pageMeta({
   path, title, description,
-  keywords: ['raiokiuai', 'about raiokiuai', 'conversational AI company India', 'AI agents startup'],
+  keywords: ['RaiokiuAI', 'about RaiokiuAI', 'conversational AI company India', 'AI agents startup'],
 });
 
 const beliefs: [string, string][] = [
@@ -32,7 +32,7 @@ export default function AboutPage() {
 
       <section className="section tight">
         <div className="wrap">
-          <p className="statement reveal">A conversation is only useful if it ends in something real: <strong>a booking made, an offer accepted, a refund started, a call routed to the right person.</strong></p>
+          <p className="statement reveal">A conversation is only useful if it ends in something real: <strong>a question answered, a request completed, a call routed to the right person.</strong></p>
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { SITE } from '@/lib/site';
+import SplitWords from './SplitWords';
 
 export function JsonLd({ data }: { data: object }) {
   return (
@@ -12,19 +13,15 @@ export function JsonLd({ data }: { data: object }) {
   );
 }
 
-export function Logo({ size = 26 }: { size?: number }) {
+export function Logo({ height = 32 }: { height?: number }) {
+  // The official lockup, transparent version of public/logo.png. Width follows its 1501×321 aspect ratio.
+  const width = Math.round((height * 1501) / 321);
+  // Two versions: light wordmark for the dark theme, the original for the light theme. CSS shows one.
   return (
-    <svg viewBox="0 0 28 28" width={size} height={size} aria-hidden="true">
-      <circle cx="14" cy="14" r="5" fill="#fff" />
-      <g stroke="#fff" strokeWidth="1.5" strokeLinecap="round">
-        <path d="M14 9V3M14 19v6M9 14H3M19 14h6M10.5 10.5 6 6M17.5 17.5 22 22M17.5 10.5 22 6M10.5 17.5 6 22" />
-      </g>
-      <g fill="#FF9254">
-        <circle cx="14" cy="3" r="2.2" />
-        <circle cx="25" cy="14" r="2.2" />
-        <circle cx="6" cy="22" r="2.2" />
-      </g>
-    </svg>
+    <>
+      <img className="logo-d" src="/logo-dark.png" alt="RaiokiuAI" width={width} height={height} />
+      <img className="logo-l" src="/logo-transparent.png" alt="RaiokiuAI" width={width} height={height} />
+    </>
   );
 }
 
@@ -52,8 +49,11 @@ export function PageHero({ crumb, title, accent, lede, children }: { crumb: stri
           <span aria-hidden="true">/</span>
           <span aria-current="page">{crumb}</span>
         </nav>
-        <h1 className="reveal">
-          {title} <span className="grad-text">{accent}</span>
+        <h1>
+          {typeof title === 'string' ? <SplitWords text={title} start={0.1} /> : title}{' '}
+          {typeof accent === 'string'
+            ? <SplitWords text={accent} start={0.1 + (typeof title === 'string' ? title.split(' ').length : 2) * 0.07} wordClass="grad-text" />
+            : <span className="grad-text">{accent}</span>}
         </h1>
         <p className="lede reveal d1">{lede}</p>
         {children && <div className="ctas reveal d2">{children}</div>}

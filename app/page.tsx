@@ -1,19 +1,13 @@
 import Link from 'next/link';
-import { Arrow, Cta, JsonLd, Prism, SectionHead } from '@/components/ui';
+import ScrollWords from '@/components/ScrollWords';
+import SplitWords from '@/components/SplitWords';
+import { Arrow, JsonLd, Prism } from '@/components/ui';
 import { SITE, pageJsonLd, pageMeta } from '@/lib/site';
 
-const title = 'raiokiuai — AI agents for WhatsApp, web & voice, wired to real workflows';
+const title = 'RaiokiuAI — AI agents for WhatsApp, web & voice, wired to real workflows';
 const description = SITE.description;
 
-export const metadata = pageMeta({ path: '/', title, ogTitle: `raiokiuai — ${SITE.tagline}`, description });
-
-const faqs = [
-  { q: 'What is raiokiuai?', a: 'raiokiuai is a platform for building conversational AI agents and connecting them to real business actions with visual workflows. One agent can run on WhatsApp, web and app chat, and voice.' },
-  { q: 'Do I need to write backend code?', a: 'No. Flows let you connect LLMs, APIs, data and logic on a visual canvas, then attach them to an agent as tools. Developers can still drop into Python or JavaScript code nodes when they need to.' },
-  { q: 'Which languages do agents support?', a: 'Agents chat and speak in English and multiple Indian languages, including Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi and Gujarati.' },
-  { q: 'Which AI models can I use?', a: 'An AI gateway gives you OpenAI, Gemini and Claude models behind a single key, with per-flow spend tracking.' },
-  { q: 'How do I get access?', a: 'raiokiuai is in early access. Request an invite on the early access page and we will reach out.' },
-];
+export const metadata = pageMeta({ path: '/', title, ogTitle: `RaiokiuAI — ${SITE.tagline}`, description });
 
 const jsonLd = pageJsonLd({
   path: '/',
@@ -23,7 +17,7 @@ const jsonLd = pageJsonLd({
   extra: [
     {
       '@type': 'SoftwareApplication',
-      name: 'raiokiuai',
+      name: 'RaiokiuAI',
       applicationCategory: 'BusinessApplication',
       operatingSystem: 'Web',
       url: `${SITE.url}/`,
@@ -38,15 +32,9 @@ const jsonLd = pageJsonLd({
         'Multi-agent orchestration',
         'Tracing, cost tracking and conversation quality scoring',
       ],
-    },
-    {
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-    },
+    }
   ],
 });
-
-const marquee = ['WhatsApp', 'Web chat SDK', 'Realtime voice', 'हिन्दी', 'தமிழ்', 'తెలుగు', 'MCP servers', 'API endpoints', 'RAG knowledge bases', 'Multi-agent orchestration'];
 
 function LoomDiagram() {
   const node = (x: number, y: number, t: string, s: string, cls = 'node') => (
@@ -65,180 +53,111 @@ function LoomDiagram() {
           <circle key={id} r="4" className="bead"><animateMotion dur={dur} begin={begin} repeatCount="indefinite"><mpath href={`#${id}`} /></animateMotion></circle>
         ))}
       </g>
-      {node(10, 28, 'WhatsApp', 'rich messages')}
-      {node(10, 128, 'Chat SDK', 'web · app')}
+      {node(10, 28, 'Messaging', 'chat apps')}
+      {node(10, 128, 'Web & app', 'embedded chat')}
       {node(10, 228, 'Voice', 'realtime')}
       <g className="node agent"><rect x="232" y="110" width="100" height="80" rx="16" /><text x="248" y="142">Agent</text><text x="248" y="159" className="sub">memory · tools</text><text x="248" y="173" className="sub">guardrails</text></g>
-      {node(402, 28, 'lookup_user', 'API → jq')}
-      {node(402, 128, 'fetch_slots', 'if/else → API')}
-      {node(402, 228, 'kb_answer', 'RAG', 'node accent')}
+      {node(402, 28, 'API tool', 'your systems')}
+      {node(402, 128, 'Workflow', 'logic → action')}
+      {node(402, 228, 'Knowledge', 'RAG', 'node accent')}
     </svg>
   );
 }
+
+const doing: [string, string][] = [
+  ['Conversation', 'AI agents with memory, tools and guardrails.'],
+  ['Action', 'Visual workflows connected to your APIs, data and models.'],
+  ['Every channel', 'One agent across messaging, web, app and voice.'],
+  ['Your languages', 'English and multiple Indian languages.'],
+];
+
+const doors: { n: string; k: string; title: string; sub: string; href: string }[] = [
+  { n: '01', k: 'Agents', title: 'Conversational AI agents.', sub: 'Memory, tools and guardrails, built in.', href: '/agents/' },
+  { n: '02', k: 'Flows', title: 'Visual workflows.', sub: 'Shipped as APIs, MCP servers or agent tools.', href: '/flows/' },
+  { n: '03', k: 'Channels', title: 'Every channel.', sub: 'Messaging, web and app chat, and voice.', href: '/channels/' },
+];
 
 export default function Home() {
   return (
     <>
       <JsonLd data={jsonLd} />
 
+      {/* Act 1 · Poster */}
       <section className="hero grain" aria-labelledby="hero-title">
         <Prism second />
-        <svg className="mark" viewBox="0 0 120 120" aria-hidden="true">
-          <circle cx="60" cy="60" r="21" fill="#fff" />
-          <g stroke="#fff" strokeWidth="5" strokeLinecap="round"><path d="M60 39V12M60 81v27M39 60H12M81 60h27M45 45 25 25M75 75l20 20M75 45l20-20M45 75 25 95" /></g>
-          <g fill="#FF9254"><circle cx="60" cy="12" r="9" /><circle cx="108" cy="60" r="9" /><circle cx="25" cy="95" r="9" /></g>
-        </svg>
+        <div className="mark-wrap" aria-hidden="true"><img className="mark" src="/logo-mark.png" alt="" width={190} height={190} /></div>
         <div className="wrap hero-inner">
           <div>
             <span className="hero-badge reveal"><b>NEW</b> Publish flows as API endpoints &amp; MCP servers</span>
-            <h1 id="hero-title" className="reveal d1">Agents that talk.<br /><span className="soft">Workflows that act.</span></h1>
+            <h1 id="hero-title"><SplitWords text="Agents that talk." start={0.15} /><br /><SplitWords text="Workflows that act." start={0.4} wordClass="soft" /></h1>
           </div>
           <div className="reveal d2">
-            <p className="lede">raiokiuai builds conversational AI agents for WhatsApp, web, app and voice, and wires them to your APIs, data and models through visual workflows.</p>
+            <p className="lede">AI agents for every channel, connected to your systems through visual workflows.</p>
             <div className="ctas">
               <Link className="btn btn-primary" href="/contact/">Get early access <Arrow /></Link>
-              <Link className="btn btn-ghost" href="/flows/">Explore Flows</Link>
+              <Link className="btn btn-ghost" href="/agents/">See the platform</Link>
             </div>
           </div>
         </div>
         <span className="scroll-cue" aria-hidden="true">Scroll</span>
       </section>
 
-      <div className="beam" aria-hidden="true" />
-
-      <section className="section tight">
+      {/* Act 2 · What we do */}
+      <section className="act statement-act" aria-labelledby="do-title">
         <div className="wrap">
-          <p className="statement reveal">Everyone has a chatbot. <strong>We make it do the work: real bookings, real offers, real refunds, in the customer&apos;s own language.</strong></p>
-        </div>
-      </section>
-
-      <section className="section" aria-labelledby="pillars-title">
-        <div className="wrap">
-          <SectionHead eyebrow="Why raiokiuai" id="pillars-title" title="From conversation to outcome, in one platform." />
-          <div className="pillars reveal d1">
-            {[
-              ['Conversation', 'Agents with memory, tools and guardrails, built in minutes rather than sprints.'],
-              ['Action', 'Visual workflows that call your APIs, databases and models, then return real results.'],
-              ['Every channel', 'One agent on WhatsApp, web, app and voice, with native UI on each.'],
-              ['Your languages', 'Chat and voice in English and multiple Indian languages, out of the box.'],
-            ].map(([t, d], i) => (
-              <div className="pillar" key={t}><span className="n">0{i + 1}</span><div><h3>{t}</h3><p>{d}</p></div></div>
+          <span className="eyebrow act-eyebrow" id="do-title">What we do</span>
+          <ScrollWords className="act-line" text="RaiokiuAI builds AI agents that talk with your customers, and workflows that act on your systems." />
+          <div className="ticks reveal">
+            {doing.map(([t, d]) => (
+              <div className="tick" key={t}><span className="tick-mark" aria-hidden="true" /><h3>{t}</h3><p>{d}</p></div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section" aria-labelledby="ship-title" style={{ paddingTop: 0 }}>
+      {/* Act 3 · The product, in one picture */}
+      <section className="act product-act" aria-labelledby="loop-title">
         <div className="wrap">
-          <h2 id="ship-title" className="big-line reveal">We ship AI <span className="strike">demos</span><br /><span className="grad-text">journeys.</span></h2>
-          <div className="grid g3" style={{ marginTop: 56 }}>
-            <div className="card reveal"><span className="k">Inside your stack</span><h3>Wired to real systems</h3><p>Paste a cURL or attach a flow, and the agent works with your live data. Secrets stay encrypted and never reach the model.</p></div>
-            <div className="card reveal d1"><span className="k">Live in days</span><h3>Business teams can build</h3><p>A visual canvas, a prompt studio and node-by-node testing mean customer journeys ship without backend tickets.</p></div>
-            <div className="card reveal d2"><span className="k">Measured</span><h3>Every turn is traced</h3><p>Latency, cost and quality are scored on every conversation, so you know what is working.</p></div>
+          <div className="product-head reveal">
+            <span className="eyebrow">How it fits</span>
+            <h2 id="loop-title">Channels in. Agent in the middle. Your systems out.</h2>
           </div>
+          <div className="product-visual reveal d1"><LoomDiagram /></div>
         </div>
       </section>
 
-      <section className="section" aria-labelledby="how-title" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <SectionHead eyebrow="How it works" id="how-title" title="Build the action. Give it a voice. Ship it everywhere.">
-            <p>Flows are the hands and agents are the conversation. Together they turn a customer&apos;s message into a real booking, offer or refund.</p>
-          </SectionHead>
-          <div className="steps">
-            <article className="step reveal">
-              <div className="num">01 · FLOWS</div>
-              <h3>Build the workflow</h3>
-              <p>Drag LLM, API, jq, code, database and condition nodes onto a canvas. Test each node live, then publish a versioned endpoint.</p>
-              <code className="code"><span className="b">trigger</span>{'(phone)\n → api: lookup_user\n → if: city serviceable?\n → api: fetch_slots\n → jq: '}<span className="a">top 3 slots</span></code>
-            </article>
-            <article className="step reveal d1">
-              <div className="num">02 · AGENTS</div>
-              <h3>Give it to an agent</h3>
-              <p>Attach the flow as a tool or paste any cURL. Set the persona, languages and first message, and let the prompt studio refine the rest.</p>
-              <code className="code"><span className="b">tool</span>{': fetch_slots\n  phone ← '}<span className="a">dynamic variable</span>{'\n  auth  ← team secret\n  cache ← ttl · jq transform'}</code>
-            </article>
-            <article className="step reveal d2">
-              <div className="num">03 · SHIP</div>
-              <h3>Go live everywhere</h3>
-              <p>Map the agent to a WhatsApp number, a web or app page, or a voice line. Score every conversation and trace every turn.</p>
-              <code className="code">{'whatsapp → '}<span className="b">support-bot</span>{'\nsdk      → '}<span className="b">support-bot</span>{'\nvoice    → '}<span className="b">support-bot</span>{'\nquality  '}<span className="a">rules ✓</span></code>
-            </article>
-          </div>
+      {/* Act 4 · What we provide: the rows are the links */}
+      <section className="doors" aria-labelledby="provide-title">
+        <div className="wrap doors-head">
+          <span className="eyebrow" id="provide-title">What we provide</span>
         </div>
-      </section>
-
-      <div className="marquee" aria-hidden="true">
-        <div className="track">
-          {[...marquee, ...marquee].map((m, i) => <span key={i}>{m}</span>)}
-        </div>
-      </div>
-
-      <section className="section" aria-labelledby="platform-title">
-        <div className="wrap">
-          <SectionHead eyebrow="The platform" id="platform-title" title="Three building blocks. One loop." />
-          <div className="tiles">
-            <Link className="card card-glow tile reveal" href="/agents/">
-              <div>
-                <span className="k">Agents</span>
-                <h3>A complete agent stack, without the plumbing.</h3>
-                <p>Memory, tools, multimodal input, concurrency and safety limits are handled for you.</p>
+        <div className="hairline" aria-hidden="true" />
+        {doors.map((d) => (
+          <div key={d.href}>
+            <Link className="door" href={d.href}>
+              <div className="wrap door-inner">
+                <div className="door-main">
+                  <span className="door-k">{d.n} · {d.k}</span>
+                  <h3 className="door-title">{d.title}</h3>
+                  <p className="door-sub">{d.sub}</p>
+                </div>
+                <span className="door-go" aria-hidden="true"><Arrow /></span>
               </div>
-              <div className="visual"><LoomDiagram /></div>
-              <span className="link-arrow">Explore agents <span aria-hidden="true">→</span></span>
             </Link>
-            <Link className="card card-glow tile reveal d1" href="/flows/">
-              <div>
-                <span className="k">Flows</span>
-                <h3>Connect AI, APIs and logic on one canvas.</h3>
-                <p>Ship any flow as an API endpoint, an MCP server or an agent tool.</p>
-              </div>
-              <span className="link-arrow">Explore Flows <span aria-hidden="true">→</span></span>
-            </Link>
-            <Link className="card card-glow tile reveal d2" href="/channels/">
-              <div>
-                <span className="k">Channels</span>
-                <h3>One agent, wherever your customers are.</h3>
-                <p>WhatsApp, web and app chat, and realtime multilingual voice.</p>
-              </div>
-              <span className="link-arrow">Explore channels <span aria-hidden="true">→</span></span>
-            </Link>
+            <div className="hairline" aria-hidden="true" />
           </div>
-        </div>
+        ))}
       </section>
 
-      <section className="section" aria-labelledby="journeys-title" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <SectionHead eyebrow="Use cases" id="journeys-title" title="Real journeys, ready to build.">
-            <p>The kinds of customer journeys teams build with raiokiuai across sales, service and finance.</p>
-          </SectionHead>
-          <div className="slots">
-            {[
-              ['sales', 'Journey 001 · Sales', 'Browse → buy', 'From "show me options" to a confirmed order, in one WhatsApp thread.'],
-              ['finance', 'Journey 002 · Finance', 'OTP → offer', 'Consent, a personalised offer and document upload, all inside chat.'],
-              ['voice', 'Journey 003 · Voice', 'Call → close', 'Voice bots that know when a warm transfer to a human is worth it.'],
-            ].map(([id, k, big, d], i) => (
-              <Link key={id} className={`card card-glow slot reveal${i ? ` d${i}` : ''}`} href={`/use-cases/#${id}`}>
-                <span className="k">{k}</span>
-                <div><div className="big">{big}</div><p>{d}</p></div>
-                <span className="link-arrow">Read the journey <span aria-hidden="true">→</span></span>
-              </Link>
-            ))}
-          </div>
+      {/* Act 5 · Close */}
+      <section className="act close-act" aria-labelledby="close-title">
+        <Prism fade={false} />
+        <div className="wrap close-inner reveal">
+          <span className="eyebrow">Early access</span>
+          <h2 id="close-title">Bring us your<br /><span className="soft">next journey.</span></h2>
+          <Link className="btn btn-primary btn-lg" href="/contact/">Get early access <Arrow /></Link>
         </div>
       </section>
-
-      <section className="section" aria-labelledby="faq-title" style={{ paddingTop: 0 }}>
-        <div className="wrap split">
-          <SectionHead eyebrow="FAQ" id="faq-title" title="Questions, answered." />
-          <div className="faq reveal d1">
-            {faqs.map((f) => (
-              <details key={f.q}><summary>{f.q}</summary><p>{f.a}</p></details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Cta title={<>Bring us your<br />next journey.</>} />
     </>
   );
 }

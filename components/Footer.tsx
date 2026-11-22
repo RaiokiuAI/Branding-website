@@ -8,8 +8,8 @@ export default function Footer() {
       <div className="wrap">
         <div className="foot-grid">
           <div className="foot-brand">
-            <Link className="logo" href="/" aria-label="raiokiuai home"><Logo /><span>raiokiuai</span></Link>
-            <p>Conversational AI agents that talk, and visual workflows that act. Built in India for WhatsApp, web, app and voice.</p>
+            <Link className="logo" href="/" aria-label="RaiokiuAI home"><Logo /></Link>
+            <p>Conversational AI agents that talk, and visual workflows that act. Built in India for every channel your customers use.</p>
           </div>
           <div>
             <h2>Platform</h2>
@@ -21,13 +21,13 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h2>Solutions</h2>
+            <h2>Use cases</h2>
             <ul>
-              <li><Link href="/use-cases/#sales">Sales &amp; discovery</Link></li>
-              <li><Link href="/use-cases/#booking">Booking</Link></li>
-              <li><Link href="/use-cases/#finance">Financial services</Link></li>
-              <li><Link href="/use-cases/#support">Customer support</Link></li>
-              <li><Link href="/use-cases/#voice">Voice &amp; calling</Link></li>
+              <li><Link href="/use-cases/#answer">Answer questions</Link></li>
+              <li><Link href="/use-cases/#capture">Capture leads</Link></li>
+              <li><Link href="/use-cases/#schedule">Scheduling</Link></li>
+              <li><Link href="/use-cases/#follow-up">Follow-ups</Link></li>
+              <li><Link href="/use-cases/#handoff">Human handoff</Link></li>
             </ul>
           </div>
           <div>
@@ -39,9 +39,8 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="foot-word" aria-hidden="true">raiokiuai</div>
         <div className="foot-bottom">
-          <span>© {new Date().getFullYear()} raiokiuai. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} RaiokiuAI. All rights reserved.</span>
           <span className="mono">Conversations that act</span>
         </div>
       </div>

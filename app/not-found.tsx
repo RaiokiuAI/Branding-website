@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Arrow, Prism } from '@/components/ui';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Page not found | raiokiuai' },
-  description: "The page you were looking for doesn't exist. Head back to raiokiuai to explore AI agents, Flows and channels.",
+  title: { absolute: 'Page not found | RaiokiuAI' },
+  description: "The page you were looking for doesn't exist. Head back to RaiokiuAI to explore AI agents, Flows and channels.",
 };
 
 export default function NotFound() {

@@ -3,7 +3,7 @@ import { Arrow, Cta, Ic, Icon, JsonLd, PageHero, SectionHead } from '@/component
 import { pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/agents/';
-const title = 'Conversational AI agents with memory, tools & guardrails | raiokiuai';
+const title = 'Conversational AI agents with memory, tools & guardrails | RaiokiuAI';
 const description = 'Build conversational AI agents with a prompt studio, API and workflow tools, RAG knowledge bases, long-term memory, multimodal input and a multi-agent orchestrator.';
 
 export const metadata = pageMeta({
@@ -33,7 +33,7 @@ function OrchestratorDiagram() {
     </g>
   );
   return (
-    <svg viewBox="0 0 460 330" role="img" aria-label="Router sends queries to a planner, which fans out to sales, finance and support agents; their results merge in synthesis">
+    <svg viewBox="0 0 460 330" role="img" aria-label="Router sends queries to a planner, which fans out to three specialist agents; their results merge in synthesis">
       <g className="thread">
         <path d="M230 62 V100" /><path d="M230 140 C230 170, 80 160, 80 196" /><path d="M230 140 V196" /><path d="M230 140 C230 170, 380 160, 380 196" />
         <path d="M80 236 C80 270, 230 256, 230 276" /><path d="M230 236 V276" /><path d="M380 236 C380 270, 230 256, 230 276" />
@@ -42,9 +42,9 @@ function OrchestratorDiagram() {
       <path className="thread-live" d="M380 236 C380 270, 230 256, 230 276" style={{ animationDelay: '-1s' }} />
       {n(170, 22, 'Router', undefined, 'node agent')}
       {n(170, 100, 'Planner')}
-      {n(20, 196, 'Sales agent', 'tools · memory')}
-      {n(170, 196, 'Finance agent', 'tools · memory')}
-      {n(320, 196, 'Support agent', 'tools · memory')}
+      {n(20, 196, 'Agent A', 'tools · memory')}
+      {n(170, 196, 'Agent B', 'tools · memory')}
+      {n(320, 196, 'Agent C', 'tools · memory')}
       {n(170, 276, 'Synthesis', undefined, 'node accent')}
     </svg>
   );

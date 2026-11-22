@@ -3,13 +3,13 @@ import { JsonLd, PageHero, SectionHead } from '@/components/ui';
 import { SITE, pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/contact/';
-const title = 'Get early access to raiokiuai AI agents & workflows';
-const description = "Request early access to raiokiuai. Tell us the customer journey you want to automate on WhatsApp, web, app or voice, and we'll get in touch.";
+const title = 'Get early access to RaiokiuAI AI agents & workflows';
+const description = "Request early access to RaiokiuAI. Tell us the customer journey you want to automate on WhatsApp, web, app or voice, and we'll get in touch.";
 
 export const metadata = pageMeta({
   path, title, description,
-  ogTitle: 'Get early access to raiokiuai',
-  keywords: ['raiokiuai early access', 'AI agent demo', 'contact raiokiuai', 'WhatsApp AI agent pricing'],
+  ogTitle: 'Get early access to RaiokiuAI',
+  keywords: ['RaiokiuAI early access', 'AI agent demo', 'contact RaiokiuAI', 'WhatsApp AI agent pricing'],
 });
 
 export default function ContactPage() {
