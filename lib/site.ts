@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const SITE = {
-  name: 'raiokiuai',
+  name: 'RaiokiuAI',
   url: 'https://raiokiuai.com',
   // TODO: confirm this inbox exists before launch. The contact form and footer use it.
   email: 'hello@raiokiuai.com',

@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Hanken_Grotesk, JetBrains_Mono } from 'next/font/g
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Reveal from '@/components/Reveal';
+import Interactions from '@/components/Interactions';
 import { JsonLd } from '@/components/ui';
 import { SITE } from '@/lib/site';
 import './globals.css';
@@ -30,8 +31,9 @@ export const metadata: Metadata = {
   verification: { google: SITE.googleVerification },
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: '/apple-touch-icon.png',
   },
@@ -41,8 +43,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#08090C',
-  colorScheme: 'dark',
+  themeColor: '#0A0B0D',
+  colorScheme: 'dark light',
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
@@ -56,9 +58,9 @@ const siteJsonLd = {
       '@id': `${SITE.url}/#organization`,
       name: SITE.name,
       url: `${SITE.url}/`,
-      logo: { '@type': 'ImageObject', url: `${SITE.url}/icon-512.png`, width: 512, height: 512 },
+      logo: { '@type': 'ImageObject', url: `${SITE.url}/logo.png`, width: 1501, height: 321 },
       email: SITE.email,
-      description: 'raiokiuai builds conversational AI agents for WhatsApp, web, app and voice, connected to business systems through visual workflows.',
+      description: 'RaiokiuAI builds conversational AI agents for messaging, web, app and voice, connected to business systems through visual workflows.',
       areaServed: 'IN',
     },
     {
@@ -78,6 +80,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Hide reveal-on-scroll content only when JS is running, so crawlers and no-JS users see everything. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/* Apply the saved theme before first paint (dark by default) so the page never flashes. */}
+        <script dangerouslySetInnerHTML={{ __html: "try{var t=localStorage.getItem('theme');document.documentElement.dataset.theme=t==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}" }} />
         <JsonLd data={siteJsonLd} />
       </head>
       <body>
@@ -86,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <Reveal />
+        <Interactions />
       </body>
     </html>
   );

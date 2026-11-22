@@ -19,9 +19,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -44,6 +44,9 @@ jobs:
           test -f out/CNAME && grep -qx 'raiokiuai.com' out/CNAME
           test -f out/sitemap.xml && test -f out/robots.txt && test -f out/404.html
           for f in out/index.html out/*/index.html; do
+            # The 404 page and noindex pages (e.g. /brand/) are not meant to be indexed, so skip them.
+            case "$f" in out/404/*) continue ;; esac
+            grep -q 'noindex' "$f" && continue
             grep -q 'rel="canonical"' "$f" || { echo "missing canonical: $f"; exit 1; }
             grep -q 'google-site-verification' "$f" || { echo "missing verification tag: $f"; exit 1; }
           done

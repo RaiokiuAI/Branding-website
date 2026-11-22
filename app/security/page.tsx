@@ -2,8 +2,8 @@ import { Cta, Ic, Icon, JsonLd, PageHero, SectionHead } from '@/components/ui';
 import { pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/security/';
-const title = 'Production-ready AI agents: guardrails, observability & security | raiokiuai';
-const description = 'raiokiuai ships AI agents with guardrails, per-turn tracing, cost tracking, encrypted secrets, role-based team access and PII-masked logs, so you can run them in production.';
+const title = 'Production-ready AI agents: guardrails, observability & security | RaiokiuAI';
+const description = 'RaiokiuAI ships AI agents with guardrails, per-turn tracing, cost tracking, encrypted secrets, role-based team access and PII-masked logs, so you can run them in production.';
 
 export const metadata = pageMeta({
   path, title, description,
