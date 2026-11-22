@@ -47,35 +47,6 @@ npm run build      # static output in ./out
 npx serve out      # preview the production build
 ```
 
-## Deploy (GitHub Actions → GitHub Pages)
-
-`.github/workflows/deploy.yml` builds and deploys on every push to `main`.
-
-One-time setup:
-
-1. **GitHub → Settings → Pages → Build and deployment → Source: GitHub Actions.**
-2. Push to `main` (or run the workflow manually). `public/CNAME` sets the custom domain to `raiokiuai.com`.
-3. **Hostinger → Domains → raiokiuai.com → DNS / Nameservers → Manage DNS records**, keep the Hostinger nameservers (`aurora.dns-parking.com`, `nebula.dns-parking.com`) and set:
-
-   | Type | Name | Value |
-   | --- | --- | --- |
-   | A | `@` | `185.199.108.153` |
-   | A | `@` | `185.199.109.153` |
-   | A | `@` | `185.199.110.153` |
-   | A | `@` | `185.199.111.153` |
-   | CNAME | `www` | `raiokiuai.github.io` |
-   | TXT | `@` | `google-site-verification=pD_A6esc7pXNT6zjpIr39VTtAd4gfvhR9Ha9sEccFEc` (optional, DNS verification) |
-
-   Delete any existing parking `A`/`CNAME` records for `@` and `www` first.
-4. Once DNS resolves (minutes to a few hours), go back to **Settings → Pages**, confirm the custom domain shows `raiokiuai.com`, and tick **Enforce HTTPS**.
-5. In Google Search Console, verify the property and submit `https://raiokiuai.com/sitemap.xml`.
-
-## TODO
-
-- [ ] Confirm `hello@raiokiuai.com` exists, or change `SITE.email` in `lib/site.ts`
-- [ ] Swap the mailto early-access form for a real form backend (Formspree, Tally, etc.)
-- [ ] Add analytics and a privacy notice before launch
-
 ## License
 
 All rights reserved. See [NOTICE](NOTICE).
