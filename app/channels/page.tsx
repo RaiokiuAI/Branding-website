@@ -2,8 +2,8 @@ import { Cta, JsonLd, PageHero, SectionHead } from '@/components/ui';
 import { pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/channels/';
-const title = 'WhatsApp AI agent, web chat SDK & multilingual voice bot | RaiokiuAI';
-const description = 'Deploy one AI agent to WhatsApp Business, a web and app chat SDK, and realtime voice in Hindi, Tamil, Telugu and other Indian languages, with native UI on every channel.';
+const title = 'WhatsApp, web chat & voice AI agents | RaiokiuAI';
+const description = 'Deploy one AI agent to WhatsApp, a web and app chat SDK, and realtime voice in English, Hindi and other Indian languages, with native UI on each.';
 
 export const metadata = pageMeta({
   path, title, description,

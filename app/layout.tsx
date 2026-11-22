@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: { type: 'website', siteName: SITE.name, locale: 'en_IN', images: [{ url: SITE.ogImage, width: 1200, height: 630 }] },
-  twitter: { card: 'summary_large_image' },
+  twitter: { card: 'summary_large_image', site: SITE.xHandle, creator: SITE.xHandle },
 };
 
 export const viewport: Viewport = {
@@ -57,17 +57,26 @@ const siteJsonLd = {
       '@type': 'Organization',
       '@id': `${SITE.url}/#organization`,
       name: SITE.name,
+      alternateName: SITE.alternateNames,
       url: `${SITE.url}/`,
-      logo: { '@type': 'ImageObject', url: `${SITE.url}/logo.png`, width: 1501, height: 321 },
+      // Google prefers a square logo for the knowledge panel; the wide wordmark goes in `image`.
+      logo: { '@type': 'ImageObject', '@id': `${SITE.url}/#logo`, url: `${SITE.url}/icon-512.png`, width: 512, height: 512, caption: SITE.name },
+      image: { '@type': 'ImageObject', url: `${SITE.url}/logo.png`, width: 1501, height: 321 },
       email: SITE.email,
+      slogan: SITE.tagline,
       description: 'RaiokiuAI builds conversational AI agents for messaging, web, app and voice, connected to business systems through visual workflows.',
-      areaServed: 'IN',
+      areaServed: { '@type': 'Country', name: 'India' },
+      knowsAbout: ['Conversational AI', 'AI agents', 'Large language models', 'Workflow automation', 'WhatsApp Business API', 'Voice AI', 'Multilingual AI'],
+      sameAs: Object.values(SITE.social),
+      contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', email: SITE.email, url: `${SITE.url}/contact/`, areaServed: 'IN' }],
     },
     {
       '@type': 'WebSite',
       '@id': `${SITE.url}/#website`,
       url: `${SITE.url}/`,
       name: SITE.name,
+      alternateName: SITE.alternateNames,
+      description: SITE.description,
       inLanguage: 'en-IN',
       publisher: { '@id': `${SITE.url}/#organization` },
     },

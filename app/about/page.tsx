@@ -3,7 +3,7 @@ import { pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/about/';
 const title = 'About RaiokiuAI — conversations that act';
-const description = 'RaiokiuAI is building the platform that turns AI conversations into real business outcomes, for teams serving customers across India on WhatsApp, web, app and voice.';
+const description = 'RaiokiuAI builds the platform that turns AI conversations into real business outcomes for teams serving customers on WhatsApp, web, app and voice.';
 
 export const metadata = pageMeta({
   path, title, description,

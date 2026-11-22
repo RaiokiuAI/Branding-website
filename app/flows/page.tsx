@@ -3,8 +3,8 @@ import { Arrow, Cta, JsonLd, PageHero, SectionHead } from '@/components/ui';
 import { pageJsonLd, pageMeta } from '@/lib/site';
 
 const path = '/flows/';
-const title = 'Flows — visual AI workflow builder for LLMs, APIs & code | RaiokiuAI';
-const description = 'Flows is a visual canvas for AI workflows. Chain LLM, API, jq, Python/JS code and logic nodes, test node by node, and publish as API endpoints, MCP servers or agent tools.';
+const title = 'Flows: visual AI workflow builder | RaiokiuAI';
+const description = 'Chain LLM, API, code and logic nodes on a visual canvas, test node by node, and publish as an API endpoint, MCP server or agent tool.';
 
 export const metadata = pageMeta({
   path, title, description,

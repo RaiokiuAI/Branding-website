@@ -344,6 +344,9 @@ a.card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -20px rgba(var(--
 .foot-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px;color:var(--muted)}
 .foot-grid a:hover{color:var(--brand)}
 .foot-brand p{color:var(--muted);max-width:320px;margin-top:16px;font-size:15px}
+.foot-social{display:flex;gap:10px;margin-top:20px}
+.foot-social a{display:grid;place-items:center;width:40px;height:40px;border-radius:999px;border:1px solid var(--line-strong);color:var(--muted);transition:color .2s,border-color .2s}
+.foot-social a:hover{color:var(--brand);border-color:var(--brand)}
 .foot-word{font:700 clamp(64px,17vw,250px)/.8 var(--display);letter-spacing:-.06em;margin:72px 0 28px;background:linear-gradient(180deg,rgba(var(--brand-rgb),.14),rgba(var(--brand-rgb),0));-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none;white-space:nowrap}
 .foot-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--dim);padding-top:24px;border-top:1px solid var(--line)}
 

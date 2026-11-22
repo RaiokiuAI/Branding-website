@@ -6,9 +6,18 @@ export const SITE = {
   // TODO: confirm this inbox exists before launch. The contact form and footer use it.
   email: 'hello@raiokiuai.com',
   googleVerification: 'pD_A6esc7pXNT6zjpIr39VTtAd4gfvhR9Ha9sEccFEc',
+  // Other names people search for; used as schema.org alternateName.
+  alternateNames: ['Raiokiu AI', 'raiokiuai', 'Raiokiu'],
+  // Official profiles. Listed as schema.org sameAs and linked in the footer.
+  social: {
+    linkedin: 'https://www.linkedin.com/company/raiokiuai',
+    x: 'https://x.com/RaiokiuAI',
+  },
+  xHandle: '@RaiokiuAI', // twitter:site / twitter:creator
   tagline: 'Agents that talk. Workflows that act.',
+  // Keep meta descriptions between ~120 and 155 characters so search engines don't truncate them.
   description:
-    'Build conversational AI agents for WhatsApp, web, app and voice, and connect them to your APIs, data and LLMs with visual workflows. Multilingual, production-ready, made in India.',
+    'Build AI agents for WhatsApp, web, app and voice, and connect them to your APIs and data with visual workflows. Multilingual and production-ready.',
   keywords: [
     'conversational AI',
     'AI agents',
@@ -53,6 +62,9 @@ type PageMetaInput = {
 
 /** Canonical, Open Graph and Twitter tags for a page. */
 export function pageMeta({ path, title, ogTitle, description, keywords }: PageMetaInput): Metadata {
+  // Catch SEO regressions at build time (Ahrefs flags titles > 70 and descriptions > 160 chars).
+  if (title.length > 60) throw new Error(`Title for ${path} is ${title.length} chars; keep it to 60: "${title}"`);
+  if (description.length > 160) throw new Error(`Description for ${path} is ${description.length} chars; keep it to 160.`);
   const t = ogTitle ?? title;
   const image = { url: SITE.ogImage, width: 1200, height: 630, alt: `${SITE.name} — ${SITE.tagline}` };
   return {
@@ -69,7 +81,7 @@ export function pageMeta({ path, title, ogTitle, description, keywords }: PageMe
       description,
       images: [image],
     },
-    twitter: { card: 'summary_large_image', title: t, description, images: [image] },
+    twitter: { card: 'summary_large_image', site: SITE.xHandle, creator: SITE.xHandle, title: t, description, images: [image] },
   };
 }
 
