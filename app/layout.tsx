@@ -82,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         {/* Apply the saved theme before first paint (dark by default) so the page never flashes. */}
         <script dangerouslySetInnerHTML={{ __html: "try{var t=localStorage.getItem('theme');document.documentElement.dataset.theme=t==='light'?'light':'dark'}catch(e){document.documentElement.dataset.theme='dark'}" }} />
+        <script src="https://analytics.ahrefs.com/analytics.js" data-key="fQDvAlktwK1NICXyuti55A" async />
         <JsonLd data={siteJsonLd} />
       </head>
       <body>
