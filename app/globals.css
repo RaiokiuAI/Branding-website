@@ -140,6 +140,8 @@ h1,h2,h3,h4{margin:0;font-family:var(--display);font-weight:600;letter-spacing:-
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
 .hero-badge{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 8px;border-radius:999px;border:1px solid var(--line-strong);background:var(--glass);backdrop-filter:blur(8px);font-size:13px;color:var(--text);margin-bottom:26px}
 .hero-badge b{font:600 11px/1 var(--mono);letter-spacing:.08em;padding:5px 8px;border-radius:999px;background:var(--brand);color:#fff}
+.hero-eyebrow{display:flex;margin:0 0 22px;color:var(--text);text-wrap:balance;line-height:1.5}
+@media (max-width:520px){.hero-eyebrow{letter-spacing:.18em;font-size:11px}}
 .scroll-cue{position:absolute;right:24px;bottom:40px;z-index:2;writing-mode:vertical-rl;font:500 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
 
 /* Page hero (sub pages) */

@@ -95,6 +95,8 @@ export default function Home() {
         <div className="wrap hero-inner">
           <div>
             <span className="hero-badge reveal"><b>NEW</b> Publish flows as API endpoints &amp; MCP servers</span>
+            {/* Category keywords next to the H1: competitors all name "AI agents" here, and our headline doesn't. */}
+            <p className="eyebrow hero-eyebrow reveal">AI agent platform for WhatsApp, web &amp; voice</p>
             <h1 id="hero-title"><SplitWords text="Agents that talk." start={0.15} /><br /><SplitWords text="Workflows that act." start={0.4} wordClass="soft" /></h1>
           </div>
           <div className="reveal d2">
